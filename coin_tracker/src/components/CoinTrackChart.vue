@@ -195,16 +195,6 @@ export default {
   display: inline;
 }
 
-/* .select-btns:nth-of-type(1) {
-  flex-grow: 20;
-}
-.select-btns:nth-of-type(2) {
-  flex-grow: 1;
-}
-.select-btns:nth-of-type(3) {
-  flex-grow: 5;
-} */
-
 .select-btns {
   display: inline;
 }

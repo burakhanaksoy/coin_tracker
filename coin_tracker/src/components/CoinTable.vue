@@ -1,23 +1,62 @@
 <template>
   <div class="container">
-    <a-table
-      :columns="columns"
-      :data-source="tableData"
-      :rowKey="(record) => record.name"
-    >
-      <div slot="name" slot-scope="record, text">
-        <img
-          :src="require('../assets/' + `${text.name}-img.png`)"
-          width="15px"
-          height="15px"
-        />
-        {{ text.name }}
-      </div>
-      <div slot="value" slot-scope="record, text">{{ text.value }}$</div>
-      <div slot="market_cap" slot-scope="record, text">
-        {{ text.market_cap }}$
-      </div>
-    </a-table>
+    <div class="btns">
+      <a-button type="primary" @click="refreshData">Refresh</a-button>
+      <a-button  @click="refreshData">TRY</a-button>
+    </div>
+    <a-spin :spinning="loading" tip="Loading...">
+      <a-table
+        :columns="columns"
+        :data-source="tableData"
+        :rowKey="(record) => record.name"
+      >
+        <div slot="name" slot-scope="record, text">
+          <img
+            :src="require('../assets/' + `${text.name}-img.png`)"
+            width="15px"
+            height="15px"
+          />
+          {{ text.name }}
+        </div>
+        <div slot="value" slot-scope="record, text">
+          {{
+            text.value.toString().includes(".")
+              ? text.value
+                  .toFixed(2)
+                  .toString()
+                  .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+              : text.value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          }}$
+        </div>
+        <div slot="market_cap" slot-scope="record, text">
+          {{
+            text.market_cap
+              .toFixed(1)
+              .toString()
+              .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          }}$
+        </div>
+        <div slot="one_day_change" slot-scope="record, text">
+          %{{ text.one_day_change.toFixed(2) }}
+          <span>
+            <a-icon
+              v-if="text.one_day_change > 0"
+              type="arrow-up"
+              style="color: green"
+            />
+            <a-icon v-else type="arrow-down" style="color: red" />
+          </span>
+        </div>
+        <div slot="volume" slot-scope="record, text">
+          {{
+            text.volume
+              .toFixed(1)
+              .toString()
+              .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          }}$
+        </div>
+      </a-table>
+    </a-spin>
   </div>
 </template>
 <script>
@@ -39,75 +78,27 @@ const columns = [
     title: "Value",
     dataIndex: "value",
     key: "value",
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
-    sorter: (a, b) => a.address.length - b.address.length,
+    sorter: (a, b) => a.value - b.value,
     scopedSlots: { customRender: "value" },
   },
   {
     title: "Market Cap",
     dataIndex: "market_cap",
     key: "market_cap",
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
-    sorter: (a, b) => a.address.length - b.address.length,
+    sorter: (a, b) => a.market_cap - b.market_cap,
     scopedSlots: { customRender: "market_cap" },
   },
   {
     title: "Volume",
     dataIndex: "volume",
     key: "volume",
+    scopedSlots: { customRender: "volume" },
   },
   {
     title: "24hr Change",
     dataIndex: "one_day_change",
     key: "one_day_change",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "Bitcoin",
-    value: 32,
-    market_cap: 21731278,
-    order: 1,
-    volume: 2139219,
-    one_day_change: -2,
-  },
-  {
-    key: "2",
-    name: "Ethereum",
-    value: 42,
-    market_cap: 21731278,
-    order: 2,
-    volume: 2139219,
-    one_day_change: -2,
-  },
-  {
-    key: "3",
-    name: "Avalanche",
-    value: 32,
-    market_cap: 21731278,
-    order: 3,
-    volume: 2139219,
-    one_day_change: -2,
-  },
-  {
-    key: "4",
-    name: "Solana",
-    value: 32,
-    market_cap: 21731278,
-    order: 4,
-    volume: 2139219,
-    one_day_change: -2,
-  },
-  {
-    key: "5",
-    name: "Algorand",
-    value: 32,
-    market_cap: 21731278,
-    order: 5,
-    volume: 2139219,
-    one_day_change: -2,
+    scopedSlots: { customRender: "one_day_change" },
   },
 ];
 
@@ -119,13 +110,14 @@ export default {
   },
   data() {
     return {
-      data,
       columns,
+      loading: false,
       tableData: [],
     };
   },
   methods: {
     fetchData() {
+      this.loading = true;
       SimplePriceService.getSimplePrices()
         .then((response) => {
           if (response.status === 200) {
@@ -150,6 +142,9 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     processData(dataArray) {
@@ -162,12 +157,20 @@ export default {
       this.tableData = [...dataArray];
     },
     rowKey() {},
+    refreshData() {
+      this.fetchData();
+    },
   },
 };
 </script>
 
 <style scoped>
 .container {
-  width: 60%;
+  width: 70%;
+}
+.btns {
+  display: flex;
+  margin-bottom: 10px;
+  justify-content:space-between;
 }
 </style>
