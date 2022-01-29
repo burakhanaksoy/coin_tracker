@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="statusCode !== 200">
+    <h1>Too Many Requests!</h1>
+  </div>
+  <div v-else class="container">
     <div class="btns">
       <a-button type="primary" @click="refreshData">Refresh</a-button>
       <a-select
@@ -128,6 +131,7 @@ export default {
   data() {
     return {
       columns,
+      statusCode: 0,
       loading: false,
       tableData: [],
       currencies: [
@@ -168,10 +172,12 @@ export default {
               tempArray.push(tempObject);
             }
             this.processData(tempArray);
+            this.statusCode = response.status;
           }
         })
         .catch((err) => {
           console.warn(err);
+          this.statusCode = 429;
         })
         .finally(() => {
           this.loading = false;
