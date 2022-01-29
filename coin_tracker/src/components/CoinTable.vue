@@ -4,7 +4,9 @@
   </div>
   <div v-else class="container">
     <div class="btns">
-      <a-button type="primary" @click="refreshData">Refresh</a-button>
+      <a-button type="primary" @click="refreshData" class="btn-class-primary"
+        >Refresh</a-button
+      >
       <a-select
         default-value="USD"
         style="width: 120px; margin-right: 10px"

@@ -1,0 +1,45 @@
+:root{
+    --body-color:white;
+    --btn-color:white;
+    --btn-color-primary:#1890FF;
+    --navigation-color:white;
+    --btn-primary-hover:#40a9ff;
+    --active-tab-color:#1890FF;
+    --inactive-tab-color:#000000A6;
+    --text-color:black;
+
+
+}
+
+body{
+    background:var(--body-color);
+}
+
+.btn-class{
+    background:var(--btn-color);
+}
+
+.btn-class-primary{
+    background:var(--btn-color-primary);
+    border-color:var(--btn-color-primary);
+}
+.btn-class-primary:hover{
+    background:var(--btn-primary-hover);
+    border-color:var(--btn-primary-hover);
+}
+
+.ant-tabs-tab{
+    color: var(--inactive-tab-color);
+}
+
+.ant-select-selection:hover{
+    border-color:var(--btn-primary-hover);
+}
+
+h1{
+    color:var(--text-color);
+}
+
+.ant-tabs-nav .ant-tabs-tab-active{
+    color:var(--active-tab-color);
+}
