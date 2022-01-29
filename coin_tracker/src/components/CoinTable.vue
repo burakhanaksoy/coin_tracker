@@ -43,7 +43,7 @@
                   .toString()
                   .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               : text.value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}
+          }}{{ selectedSymbol }}
         </div>
         <div slot="market_cap" slot-scope="record, text">
           {{
@@ -51,7 +51,7 @@
               .toFixed(1)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}$
+          }}{{ selectedSymbol }}
         </div>
         <div slot="one_day_change" slot-scope="record, text">
           %{{ text.one_day_change.toFixed(2) }}
@@ -70,7 +70,7 @@
               .toFixed(1)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}$
+          }}{{ selectedSymbol }}
         </div>
       </a-table>
     </a-spin>
@@ -137,6 +137,7 @@ export default {
         { name: "RUB", id: "rub", symbol: "₽" },
       ],
       selectedCurrency: "USD",
+      selectedSymbol: "$",
     };
   },
   methods: {
@@ -155,41 +156,22 @@ export default {
                 tempObject.name =
                   name[0].toUpperCase() + name.slice(1, name.length);
               }
-              switch (currency) {
-                case "usd":
-                  tempObject.value = element.usd;
-                  tempObject.market_cap = element.usd_market_cap;
-                  tempObject.volume = element.usd_24h_vol;
-                  tempObject.one_day_change = element.usd_24h_change;
-                  break;
-                case "eur":
-                  tempObject.value = element.eur;
-                  tempObject.market_cap = element.eur_market_cap;
-                  tempObject.volume = element.eur_24h_vol;
-                  tempObject.one_day_change = element.eur_24h_change;
-                  break;
-                case "try":
-                  tempObject.value = element.try;
-                  tempObject.market_cap = element.try_market_cap;
-                  tempObject.volume = element.try_24h_vol;
-                  tempObject.one_day_change = element.try_24h_change;
-                  break;
-                case "rub":
-                  tempObject.value = element.rub;
-                  tempObject.market_cap = element.rub_market_cap;
-                  tempObject.volume = element.rub_24h_vol;
-                  tempObject.one_day_change = element.rub_24h_change;
-                  break;
-                default:
-                  console.log("[ERR]: Currency not found.");
-              }
+              const market_cap_literal = `${currency}_market_cap`;
+              const one_day_vol_literal = `${currency}_24h_vol`;
+              const one_day_change_literal = `${currency}_24h_change`;
+
+              tempObject.value = element[currency];
+              tempObject.market_cap = element[market_cap_literal];
+              tempObject.volume = element[one_day_vol_literal];
+              tempObject.one_day_change = element[one_day_change_literal];
+
               tempArray.push(tempObject);
             }
             this.processData(tempArray);
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
         })
         .finally(() => {
           this.loading = false;
@@ -209,11 +191,14 @@ export default {
     },
     rowKey() {},
     refreshData() {
-      this.fetchData();
+      this.fetchData(this.selectedCurrency.toLowerCase());
     },
   },
   watch: {
     selectedCurrency() {
+      this.selectedSymbol = this.currencies.find(
+        (e) => e.name === this.selectedCurrency
+      ).symbol;
       this.fetchData(
         this.currencies.find((e) => e.name === this.selectedCurrency).id
       );
