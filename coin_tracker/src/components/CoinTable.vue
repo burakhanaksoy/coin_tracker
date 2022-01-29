@@ -1,8 +1,28 @@
 <template>
-  <div class="container">
+  <div v-if="statusCode !== 200">
+    <h1>Too Many Requests!</h1>
+  </div>
+  <div v-else class="container">
     <div class="btns">
       <a-button type="primary" @click="refreshData">Refresh</a-button>
-      <a-button  @click="refreshData">TRY</a-button>
+      <a-select
+        default-value="USD"
+        style="width: 120px; margin-right: 10px"
+        @change="handleSelectedCurrency"
+      >
+        <a-select-option
+          v-for="(currency, idx) in currencies"
+          :key="idx"
+          :value="currency.name"
+        >
+          <img
+            :src="require('../assets/' + `${currency.name}-img.png`)"
+            width="15px"
+            height="15px"
+          />
+          {{ currency.name }}
+        </a-select-option>
+      </a-select>
     </div>
     <a-spin :spinning="loading" tip="Loading...">
       <a-table
@@ -26,7 +46,7 @@
                   .toString()
                   .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               : text.value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}$
+          }}{{ selectedSymbol }}
         </div>
         <div slot="market_cap" slot-scope="record, text">
           {{
@@ -34,7 +54,7 @@
               .toFixed(1)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}$
+          }}{{ selectedSymbol }}
         </div>
         <div slot="one_day_change" slot-scope="record, text">
           %{{ text.one_day_change.toFixed(2) }}
@@ -53,7 +73,7 @@
               .toFixed(1)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }}$
+          }}{{ selectedSymbol }}
         </div>
       </a-table>
     </a-spin>
@@ -111,14 +131,23 @@ export default {
   data() {
     return {
       columns,
+      statusCode: 0,
       loading: false,
       tableData: [],
+      currencies: [
+        { name: "USD", id: "usd", symbol: "$" },
+        { name: "EUR", id: "eur", symbol: "€" },
+        { name: "TRY", id: "try", symbol: "₺" },
+        { name: "RUB", id: "rub", symbol: "₽" },
+      ],
+      selectedCurrency: "USD",
+      selectedSymbol: "$",
     };
   },
   methods: {
-    fetchData() {
+    fetchData(currency = "usd") {
       this.loading = true;
-      SimplePriceService.getSimplePrices()
+      SimplePriceService.getSimplePrices(currency)
         .then((response) => {
           if (response.status === 200) {
             let tempArray = [];
@@ -131,17 +160,24 @@ export default {
                 tempObject.name =
                   name[0].toUpperCase() + name.slice(1, name.length);
               }
-              tempObject.value = element.usd;
-              tempObject.market_cap = element.usd_market_cap;
-              tempObject.volume = element.usd_24h_vol;
-              tempObject.one_day_change = element.usd_24h_change;
+              const market_cap_literal = `${currency}_market_cap`;
+              const one_day_vol_literal = `${currency}_24h_vol`;
+              const one_day_change_literal = `${currency}_24h_change`;
+
+              tempObject.value = element[currency];
+              tempObject.market_cap = element[market_cap_literal];
+              tempObject.volume = element[one_day_vol_literal];
+              tempObject.one_day_change = element[one_day_change_literal];
+
               tempArray.push(tempObject);
             }
             this.processData(tempArray);
+            this.statusCode = response.status;
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
+          this.statusCode = 429;
         })
         .finally(() => {
           this.loading = false;
@@ -156,9 +192,22 @@ export default {
 
       this.tableData = [...dataArray];
     },
+    handleSelectedCurrency(value) {
+      this.selectedCurrency = value;
+    },
     rowKey() {},
     refreshData() {
-      this.fetchData();
+      this.fetchData(this.selectedCurrency.toLowerCase());
+    },
+  },
+  watch: {
+    selectedCurrency() {
+      this.selectedSymbol = this.currencies.find(
+        (e) => e.name === this.selectedCurrency
+      ).symbol;
+      this.fetchData(
+        this.currencies.find((e) => e.name === this.selectedCurrency).id
+      );
     },
   },
 };
@@ -171,6 +220,6 @@ export default {
 .btns {
   display: flex;
   margin-bottom: 10px;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 </style>

@@ -61,6 +61,12 @@ export default {
     return {
       options: {
         chart: {
+          toolbar: {
+            show: true,
+            tools: {
+              download: false,
+            },
+          },
           id: "vuechart-example",
         },
         xaxis: {
@@ -82,6 +88,39 @@ export default {
         },
         markers: {
           size: 2,
+        },
+        grid: {
+          show: true,
+          borderColor: "#90A4AE",
+          strokeDashArray: 0,
+          position: "back",
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          row: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          column: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 5,
+          },
+        },
+        dataLabels: {
+          enabled: false,
         },
       },
       series: [
@@ -136,7 +175,7 @@ export default {
         })
         .catch((err) => {
           this.statusCode = 429;
-          console.log(err);
+          console.warn(err);
         });
     },
     reDrawChart() {
