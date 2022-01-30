@@ -38,7 +38,17 @@
             width="15px"
             height="15px"
           />
-          {{ text.name }}
+          {{
+            text.name.includes("-")
+              ? text.name
+                  .replace(
+                    /\b([a-zÁ-ú]{3,})/g,
+                    (w) => w.charAt(0).toUpperCase() + w.slice(1)
+                  )
+                  .split("-")
+                  .join(" ")
+              : text.name
+          }}
         </div>
         <div slot="value" slot-scope="record, text">
           {{
