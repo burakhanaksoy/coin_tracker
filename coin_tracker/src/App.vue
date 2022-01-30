@@ -2,8 +2,8 @@
   <div id="app">
     <div class="btn-div">
       <a-select :default-value="theme" @change="handleChange">
-        <a-select-option value="light"> Light </a-select-option>
-        <a-select-option value="dark"> Dark </a-select-option>
+        <a-select-option value="light"> Light &#9788; </a-select-option>
+        <a-select-option value="dark"> Dark &#9790;</a-select-option>
       </a-select>
     </div>
     <center>
@@ -29,18 +29,7 @@ export default {
       theme: window.localStorage.getItem("theme"),
     };
   },
-  computed: {
-    // theme: {
-    //   get: function () {
-    //     console.log("theme sss", window.localStorage.getItem("theme"));
-    //     return window.localStorage.getItem("theme");
-    //   },
-    //   set: function (newValue) {
-    //     this.theme = newValue;
-    //     return;
-    //   },
-    // },
-  },
+  computed: {},
   beforeCreate() {
     this.$nextTick(() => {
       if (this.theme === "light") {
@@ -62,6 +51,78 @@ export default {
           "--active-tab-color",
           "#1890FF"
         );
+        document.documentElement.style.setProperty(
+          "--table-column-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--table-column-background-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-special-column-background-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-background-color-on-hover",
+          "#e6f7ff"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background-color-on-hover",
+          "#0000000A"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-active-item-background",
+          "#e6f7ff"
+        );
+        document.documentElement.style.setProperty(
+          "--btn-primary-text-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-border-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-text-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-border-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-text-color",
+          "#1890FF"
+        );
       } else {
         document.documentElement.style.setProperty("--body-color", "#17161a");
         document.documentElement.style.setProperty(
@@ -81,13 +142,83 @@ export default {
           "--active-tab-color",
           "white"
         );
+        document.documentElement.style.setProperty(
+          "--table-column-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--table-column-background-color",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--table-special-column-background-color",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--table-background-color-on-hover",
+          "#2E2B36"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background-color-on-hover",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-active-item-background",
+          "#2E2B36"
+        );
+        document.documentElement.style.setProperty(
+          "--btn-primary-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-border-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-border-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-text-color",
+          "wheat"
+        );
       }
     });
   },
   methods: {
     handleChange(val) {
-      // console.log("handle change girdi", val);
-      // this.theme = this.theme === "light" ? "dark" : "light";
       if (val === "light") {
         window.localStorage.setItem("theme", "light");
         this.theme = "light";
@@ -107,6 +238,78 @@ export default {
         document.documentElement.style.setProperty("--text-color", "black");
         document.documentElement.style.setProperty(
           "--active-tab-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--table-column-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--table-column-background-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-special-column-background-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-background-color-on-hover",
+          "#e6f7ff"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background-color-on-hover",
+          "#0000000A"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-text-color",
+          "black"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-active-item-background",
+          "#e6f7ff"
+        );
+        document.documentElement.style.setProperty(
+          "--btn-primary-text-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-background",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-border-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-text-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-border-color",
+          "#1890FF"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-text-color",
           "#1890FF"
         );
       } else {
@@ -130,15 +333,83 @@ export default {
           "--active-tab-color",
           "white"
         );
+        document.documentElement.style.setProperty(
+          "--table-column-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--table-column-background-color",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--table-special-column-background-color",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--table-background-color-on-hover",
+          "#2E2B36"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--table-header-background-color-on-hover",
+          "#636363"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-item-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--select-component-menu-active-item-background",
+          "#2E2B36"
+        );
+        document.documentElement.style.setProperty(
+          "--btn-primary-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-background",
+          "#808080"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-border-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-text-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-border-color",
+          "wheat"
+        );
+        document.documentElement.style.setProperty(
+          "--ant-pagination-focus-text-color",
+          "wheat"
+        );
       }
       this.$root.$emit("update-theme", this.theme);
     },
   },
-  watch: {
-    theme() {
-      // console.log("theme changed");
-    },
-  },
+  watch: {},
 };
 </script>
 
