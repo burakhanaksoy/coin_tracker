@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="btn-div">
+    <div class="theme-div">
       <a-select :default-value="theme" @change="handleChange">
         <a-select-option value="light"> Light &#9788; </a-select-option>
         <a-select-option value="dark"> Dark &#9790;</a-select-option>
@@ -422,7 +422,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.btn-div {
+.theme-div {
   position: absolute;
   z-index: 1;
   left: 5%;

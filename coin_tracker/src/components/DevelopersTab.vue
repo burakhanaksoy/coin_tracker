@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="dev-tab-container">
     <a-card hoverable style="width: 300px">
       <img
         slot="cover"
@@ -79,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.dev-tab-container {
   width: 50%;
   display: flex;
   justify-content: space-around;

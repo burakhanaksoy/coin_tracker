@@ -180,3 +180,19 @@ thead > tr > th[key="value"]:hover {
 .ant-spin-text{
     color:var(--ant-pagination-focus-border-color) !important;
 }
+
+@media screen and (max-width: 1000px){
+    .theme-div{
+        position:relative;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }  
+
+    .dev-tab-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
