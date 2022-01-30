@@ -181,6 +181,11 @@ thead > tr > th[key="value"]:hover {
     color:var(--ant-pagination-focus-border-color) !important;
 }
 
+tbody > tr > td{
+    white-space:nowrap;
+    word-break:keep-all;
+}
+
 @media screen and (max-width: 1000px){
     .theme-div{
         position:relative;
@@ -194,5 +199,9 @@ thead > tr > th[key="value"]:hover {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    #apexchartscryptoxchart{
+    display:flex;
     }
 }

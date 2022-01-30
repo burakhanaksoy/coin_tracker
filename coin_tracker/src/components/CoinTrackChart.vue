@@ -45,8 +45,8 @@
           </a-select>
         </div>
         <apexchart
-          width="800"
           type="line"
+          width="800"
           :options="options"
           :series="series"
         ></apexchart>
@@ -73,7 +73,7 @@ export default {
               download: false,
             },
           },
-          id: "vuechart-example",
+          id: "crypto-chart",
         },
         xaxis: {
           categories: [],
@@ -128,6 +128,18 @@ export default {
         dataLabels: {
           enabled: false,
         },
+        // responsive: [
+        //   {
+        //     breakpoint: 600,
+        //     options: {
+        //       plotOptions: {
+        //         line: {
+        //           horizontal: false,
+        //         },
+        //       },
+        //     },
+        //   },
+        // ],
       },
       series: [
         {
@@ -167,7 +179,6 @@ export default {
 
   methods: {
     fetchChartData(day = 7, coin = "bitcoin") {
-      console.log("theme is ", window.localStorage.getItem("theme"));
       this.loading = true;
       this.dayStringArray = [];
       this.usdValues = [];
@@ -209,7 +220,7 @@ export default {
               download: false,
             },
           },
-          id: "vuechart-example",
+          id: "crypto-chart",
         },
         xaxis: {
           categories: [...processedStringArray],
@@ -234,6 +245,18 @@ export default {
             },
           },
         },
+        // responsive: [
+        //   {
+        //     breakpoint: 1200,
+        //     options: {
+        //       plotOptions: {
+        //         line: {
+        //           horizontal: false,
+        //         },
+        //       },
+        //     },
+        //   },
+        // ],
       };
       this.series[0].data = this.usdValues.map((e) => parseFloat(e.toFixed(2)));
       this.loading = false;
@@ -263,9 +286,6 @@ export default {
         this.selectedDay,
         this.coins.find((e) => e.name === this.selectedCoin).id
       );
-    },
-    theme(val) {
-      console.log("theme changed", val);
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="theme-div">
-      <a-select :default-value="theme" @change="handleChange">
+      <a-select :default-value="theme || 'light'" @change="handleChange">
         <a-select-option value="light"> Light &#9788; </a-select-option>
         <a-select-option value="dark"> Dark &#9790;</a-select-option>
       </a-select>
@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      theme: window.localStorage.getItem("theme"),
+      theme: window.localStorage.getItem("theme") || "light",
     };
   },
   computed: {},
