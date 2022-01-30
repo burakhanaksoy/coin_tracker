@@ -4,7 +4,9 @@
   </div>
   <div v-else class="container">
     <div class="btns">
-      <a-button type="primary" @click="refreshData">Refresh</a-button>
+      <a-button type="primary" @click="refreshData" class="btn-class-primary"
+        >Refresh</a-button
+      >
       <a-select
         default-value="USD"
         style="width: 120px; margin-right: 10px"
@@ -30,7 +32,7 @@
         :data-source="tableData"
         :rowKey="(record) => record.name"
       >
-        <div slot="name" slot-scope="record, text">
+        <div class="special-column" slot="name" slot-scope="record, text">
           <img
             :src="require('../assets/' + `${text.name}-img.png`)"
             width="15px"
@@ -48,7 +50,7 @@
               : text.name
           }}
         </div>
-        <div slot="value" slot-scope="record, text">
+        <div class="special-column" slot="value" slot-scope="record, text">
           {{
             text.value.toString().includes(".")
               ? text.value
@@ -66,7 +68,7 @@
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
           }}{{ selectedSymbol }}
         </div>
-        <div slot="one_day_change" slot-scope="record, text">
+        <div class="special-column" slot="one_day_change" slot-scope="record, text">
           %{{ text.one_day_change.toFixed(2) }}
           <span>
             <a-icon
@@ -77,7 +79,7 @@
             <a-icon v-else type="arrow-down" style="color: red" />
           </span>
         </div>
-        <div slot="volume" slot-scope="record, text">
+        <div class="special-column" slot="volume" slot-scope="record, text">
           {{
             text.volume
               .toFixed(1)

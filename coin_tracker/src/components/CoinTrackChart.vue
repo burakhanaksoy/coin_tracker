@@ -6,7 +6,12 @@
     <div v-else>
       <a-spin :spinning="loading" tip="Loading...">
         <div class="refresh-btn">
-          <a-button type="primary" @click="refreshData">Refresh</a-button>
+          <a-button
+            class="btn-class-primary"
+            type="primary"
+            @click="refreshData"
+            >Refresh</a-button
+          >
         </div>
         <div class="select-btns">
           <a-select
@@ -61,6 +66,7 @@ export default {
     return {
       options: {
         chart: {
+          foreColor: "white",
           toolbar: {
             show: true,
             tools: {
@@ -144,16 +150,24 @@ export default {
       loading: true,
       statusCode: 0,
       selectedImg: "Bitcoin-img.png",
+      // theme: window.localStorage.getItem("theme"),
     };
   },
   mounted() {
     this.$nextTick(() => {
       this.fetchChartData();
     });
+    this.$root.$on("update-theme", this.reDrawChart);
+  },
+  computed: {
+    theme() {
+      return window.localStorage.getItem("theme");
+    },
   },
 
   methods: {
     fetchChartData(day = 7, coin = "bitcoin") {
+      console.log("theme is ", window.localStorage.getItem("theme"));
       this.loading = true;
       this.dayStringArray = [];
       this.usdValues = [];
@@ -184,12 +198,39 @@ export default {
       );
       this.options = {
         ...this.options,
+        chart: {
+          foreColor:
+            window.localStorage.getItem("theme") === "light"
+              ? "black"
+              : "white",
+          toolbar: {
+            show: true,
+            tools: {
+              download: false,
+            },
+          },
+          id: "vuechart-example",
+        },
         xaxis: {
           categories: [...processedStringArray],
           title: {
             text: `${this.selectedCoin} Price`,
             style: {
-              color: "#000",
+              color:
+                window.localStorage.getItem("theme") === "light"
+                  ? "black"
+                  : "white",
+            },
+          },
+        },
+        yaxis: {
+          title: {
+            text: "USD",
+            style: {
+              color:
+                window.localStorage.getItem("theme") === "light"
+                  ? "black"
+                  : "white",
             },
           },
         },
@@ -222,6 +263,9 @@ export default {
         this.selectedDay,
         this.coins.find((e) => e.name === this.selectedCoin).id
       );
+    },
+    theme(val) {
+      console.log("theme changed", val);
     },
   },
 };

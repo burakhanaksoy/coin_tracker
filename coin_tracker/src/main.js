@@ -3,6 +3,7 @@ import Antd from 'ant-design-vue';
 import App from './App';
 import 'ant-design-vue/dist/antd.css';
 import VueApexCharts from 'vue-apexcharts'
+import './assets/global.css';
 Vue.config.productionTip = false;
 
 Vue.use(Antd);
