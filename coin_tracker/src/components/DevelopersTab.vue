@@ -80,7 +80,7 @@ export default {
 
 <style scoped>
 .dev-tab-container {
-  width: 50%;
+  width: 70%;
   display: flex;
   justify-content: space-around;
 }
